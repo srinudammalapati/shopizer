@@ -45,16 +45,5 @@ pipeline {
                 )
             }
         }
-        stage('docker image build'){
-            agent {label 'DOCKER'}
-             environment {
-              AN_ACCESS_KEY = credentials('jdocker_ids')
-          }
-          steps {
-            sh 'docker image build -t shopizerqa:1.0 .'
-            sh 'docker image tag shopizeerqa:1.0 supermahesh.jfrog.io/test-docker-local/shopizeerqa:1.0'
-            sh 'docker image push supermahesh.jfrog.io/test-docker-local/shopizeerqa:1.0'
-          }
-        }
     }
 }
