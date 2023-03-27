@@ -1,6 +1,6 @@
 pipeline {
     agent {label 'SPRING'}
-    trigger {
+    triggers {
         pollSCM('* * * * *')
     }
     parameters {
@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Archive the artifact'){
             steps{
-                Archive includes: '**/target/*.jar'
+                archive includes: '**/target/*.jar'
             }
         }
         stage('Archivr Junit results'){
