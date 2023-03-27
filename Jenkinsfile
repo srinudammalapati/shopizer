@@ -12,19 +12,31 @@ pipeline {
                 branch: "${params.BRANCH_TO_BUILD}"
             }
         }
-        stage('build the code'){
-            steps{
-                sh "mvn ${params.maven_goal}"
+        stage ('Artifactory configuration') {
+            steps {
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "jfrog",
+                    releaseRepo: 'dev-libs-release-local',
+                    snapshotRepo: 'dev-libs-snapshot-local'
+                )
+           }
+        }
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'MAVEN_DEFAULT', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'package',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
             }
         }
-        stage('Archive the artifact'){
-            steps{
-                archiveArtifacts artifacts: '**/target/*.jar'
-            }
-        }
-        stage('Archivr Junit results'){
-            steps{
-                junit '**/surefire-reports/*.xml'
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "jfrog"
+                )
             }
         }
     }
