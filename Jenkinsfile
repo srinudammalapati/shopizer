@@ -19,12 +19,12 @@ pipeline {
         }
         stage('Archive the artifact'){
             steps{
-                archiveArtifacts: '**/target/*.jar'
+                archiveArtifacts artifacts: '**/target/*.jar'
             }
         }
         stage('Archivr Junit results'){
             steps{
-                junit testResults: '**/target/surefire-reports/*.xml'
+                junit '**/surefire-reports/*.xml'
             }
         }
     }
