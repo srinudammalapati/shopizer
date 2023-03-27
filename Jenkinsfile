@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('clone the code'){
             steps{
-                git url: 'https://github.com/srinudammalapati/shopizer.git'
+                git url: 'https://github.com/srinudammalapati/shopizer.git',
                 branch: "${params.BRANCH_TO_BUILD}"
             }
         }
