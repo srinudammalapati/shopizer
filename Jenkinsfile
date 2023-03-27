@@ -1,8 +1,6 @@
 pipeline {
     agent {label 'SPRING'}
-    triggers {
-        pollSCM('* * * * *')
-    }
+    triggers {pollSCM '* * * * *'}
     parameters {
        choice(name: 'maven_goal', choices: ['package', 'clean', 'install'], description: 'build the code')
         choice(name: 'branch _to_build', choices: ['main', 'dev', 'qa'], description: 'branch to build')
@@ -26,7 +24,7 @@ pipeline {
         }
         stage('Archivr Junit results'){
             steps{
-                Junit testResult: '**/target/surefire-reports/*.xml'
+                junit testResults: '**/target/surefire-reports/*.xml'
             }
         }
     }
