@@ -10,14 +10,14 @@ pipeline {
                 git url: 'https://github.com/srinudammalapati/shopizer.git',
                 branch: "${params.BRANCH_TO_BUILD}"
             }
+        }
         stage("build & SonarQube analysis") {
             steps {
               withSonarQubeEnv('sonar') {
                 sh "mvn package sonar:sonar"
               }
             }
-          }     
-        }
+          } 
         stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
