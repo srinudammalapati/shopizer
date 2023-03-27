@@ -1,7 +1,7 @@
 pipeline {
     agent {label 'SPRING'}
     parameters {
-       choice (name: 'maven_goal', choices: ['package', 'clean', 'install'], description: 'build the code')
+       string (name: 'maven_goal', defaultValue: 'package', description: 'build the code')
         choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa'], description: 'CHOOSE TO BANCH')
     }
     triggers {pollSCM '* * * * *'}
