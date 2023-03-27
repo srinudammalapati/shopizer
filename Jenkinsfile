@@ -3,7 +3,7 @@ pipeline {
     triggers {pollSCM '* * * * *'}
     parameters {
        choice(name: 'maven_goal', choices: ['package', 'clean', 'install'], description: 'build the code')
-        choice(name: 'branch _to_build', choices: ['main', 'dev', 'qa'], description: 'branch to build')
+        choice(name: 'branch _to_build', choices: ['master, 'dev', 'qa'], description: 'branch to build')
     }
     stages {
         stage('clone the code'){
