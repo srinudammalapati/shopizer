@@ -1,10 +1,10 @@
 pipeline {
     agent {label 'SPRING'}
-    triggers {pollSCM '* * * * *'}
     parameters {
        choice (name: 'maven_goal', choices: ['package', 'clean', 'install'], description: 'build the code')
         choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa'], description: 'CHOOSE TO BANCH')
     }
+    triggers {pollSCM '* * * * *'}
     stages {
         stage('clone the code'){
             steps{
