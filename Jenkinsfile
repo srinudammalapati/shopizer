@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Archive the artifact'){
             steps{
-                archive includes: '**/target/*.jar'
+                archiveArtifacts: '**/target/*.jar'
             }
         }
         stage('Archivr Junit results'){
