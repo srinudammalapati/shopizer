@@ -4,7 +4,6 @@ pipeline {
        string (name: 'maven_goal', defaultValue: 'package', description: 'build the code')
         choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa'], description: 'CHOOSE TO BANCH')
     }
-    triggers {pollSCM '* * * * *'}
     stages {
         stage('clone the code'){
             steps{
