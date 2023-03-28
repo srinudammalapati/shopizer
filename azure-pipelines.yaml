@@ -3,6 +3,8 @@ pool: devpool
 
 trigger: 
   - master
+variables:
+  JAVA_HOME_11_X64: '/usr/lib/jvm/java-11-openjdk-amd64'  
 resources:
   repositories:
     - repository: azuredevops
