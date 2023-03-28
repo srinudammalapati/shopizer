@@ -14,6 +14,6 @@ stages:
   - template: azuredevopstemplate.yaml@azuredevops
     parameters: 
       goal: package
-      javaversion: "1.11"
-      javadirectory: "/usr/lib/jvm/java-11-openjdk-amd64/"
+      jdkversionoption: "1.11"
+      jdkdirectory: "/usr/lib/jvm/java-11-openjdk-amd64/"
   
