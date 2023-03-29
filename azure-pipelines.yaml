@@ -1,0 +1,48 @@
+---
+  pool: devpool
+
+  trigger:
+  - dev
+  
+  stages:
+  - stage: build
+    displayName: shopizerbuils
+    jobs:
+      - job: buildpacakage
+        displayName: shopizerpackage
+        steps: 
+        - task: Maven@3
+          inputs: 
+            mavenPOMFile: 'pom.xml'
+            goals: 'package'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.11'
+        - task: PublishTestResults@2    
+          inputs: 
+            testResultsFormat: 'JUnit' 
+            testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+        - task: ArchiveFiles@2
+          inputs:
+            rootFolderOrFile: 'target/*.jar'
+            includeRootFolder: false
+            archiveFile: '$(Build.ArtifactStagingDirectory)/*.jar'
+            replaceExistingArchive: false
+        - task: JFrogGenericArtifacts@1
+          inputs:
+            command: 'Upload'
+            connections: 'jfrog_id'
+            specSource: 'taskConfiguration'
+            fileSpec:
+              files:
+                - pattern: '**/target/*.jar'
+                  target: 'devpoll'
+            collectBuildInfo: true   
+            buildName: '$(Build.DefinitionName)'
+            buildNumber: '$(Build.BuildNumber)'
+            projectKey: 'proj'
+            includeEnvVars: true
+            failNoOp: true
+   
+
