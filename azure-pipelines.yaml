@@ -31,5 +31,20 @@
             includeRootFolder: false
             archiveFile: '$(Build.ArtifactStagingDirectory)/*.jar'
             replaceExistingArchive: false
+        - task: JFrogGenericArtifacts@1
+          inputs:
+            command: 'Upload'
+            connection: 'jfrog_id'
+            specSource: 'taskConfiguration'
+            fileSpec:
+               files:
+                - pattern: '**/target/*.jar'
+                  target: 'devops'
+            collectBuildInfo: true
+            buildName: '$(Build.DefinitionName)'
+            buildNumber: '$(Build.BuildNumber)'
+            projectKey: 'proj'
+            includeEnvVars: true
+            failNoOp: true    
    
 
