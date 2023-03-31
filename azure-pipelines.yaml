@@ -39,7 +39,7 @@
             fileSpec:
                files:
                 - pattern: '**/target/*.jar'
-                  target: 'devops'
+                  target: 'devpool'
             collectBuildInfo: true
             buildName: '$(Build.DefinitionName)'
             buildNumber: '$(Build.BuildNumber)'
