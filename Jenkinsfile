@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'SPRING'}
+    agent {label 'TERRAFORM'}
     parameters {
        string (name: 'maven_goal', defaultValue: 'package', description: 'build the code')
         choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa'], description: 'CHOOSE TO BANCH')
