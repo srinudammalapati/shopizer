@@ -2,7 +2,7 @@ pipeline {
     agent {label 'TERRAFORM'}
     parameters {
        string (name: 'maven_goal', defaultValue: 'package', description: 'build the code')
-        choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa'], description: 'CHOOSE TO BANCH')
+        choice (name: 'BRANCH_TO_BUILD', choices: ['master', 'dev', 'qa','uat'], description: 'CHOOSE TO BANCH')
     }
     stages {
         stage('clone the code'){
@@ -11,32 +11,11 @@ pipeline {
                 branch: "${params.BRANCH_TO_BUILD}"
             }
         }
-        stage ('Artifactory configuration') {
+        stage ('terraform') {
             steps {
-                rtMavenDeployer (
-                    id: "MAVEN_DEPLOYER",
-                    serverId: "jfrog",
-                    releaseRepo: 'dev-libs-release-local',
-                    snapshotRepo: 'dev-libs-snapshot-local'
-                )
+                sh 'terraform init'
+                sh 'terraform apply -var-file="dev.tfvars" -auto-approve'
            }
-        }
-        stage ('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: 'MAVEN_DEFAULT', // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'package',
-                    deployerId: "MAVEN_DEPLOYER"
-                )
-            }
-        }
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "jfrog"
-                )
-            }
         }
     }
 }
